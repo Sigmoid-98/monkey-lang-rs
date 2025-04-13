@@ -1,20 +1,18 @@
 mod char_util;
-mod token;
+pub mod token;
 
 use nom::branch::alt;
 use nom::bytes::complete::{tag, take};
 use nom::combinator::{map, map_res, recognize};
 use nom::{AsBytes, IResult};
-use std::str::Utf8Error;
 
 use crate::lexer::char_util::{
     complete_byte_slice_str_from_utf8, complete_str_from_str, concat_slice_vec, convert_vec_utf8,
 };
-use crate::lexer::token::{Token, Tokens};
+use crate::lexer::token::Token;
 use nom::character::complete::{alpha1, alphanumeric1, digit1, multispace0};
 use nom::multi::many0;
 use nom::sequence::{delimited, pair};
-use std::str;
 
 macro_rules! syntax_func_map_tag {
     ($func_name: ident, $tag_string: literal, $output_token: expr) => {
@@ -82,7 +80,7 @@ pub fn lex_punctuations(input: &[u8]) -> IResult<&[u8], Token> {
 
 // strings
 fn pis(input: &[u8]) -> IResult<&[u8], Vec<u8>> {
-    use std::result::Result::{Err, Ok};
+    use std::result::Result::Ok;
 
     let (i1, c1) = take(1usize)(input)?;
     match c1.as_bytes() {
@@ -256,7 +254,7 @@ mod tests {
             }\
             return false;\
             "
-            .as_bytes();
+        .as_bytes();
 
         let (_, result) = Lexer::lex_tokens(input).unwrap();
 

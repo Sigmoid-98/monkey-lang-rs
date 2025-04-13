@@ -2,7 +2,7 @@ use std::iter::Enumerate;
 use std::ops::Range;
 use nom::{InputIter, InputLength, InputTake, Needed, Slice};
 
-#[derive(PartialEq, Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Token {
     Illegal,
     EOF,
@@ -49,7 +49,7 @@ impl InputLength for Token {
 }
 
 
-#[derive(Clone, Copy, PartialEq, Debug)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 #[repr(C)]
 pub struct Tokens<'a> {
     pub tok: &'a [Token],
